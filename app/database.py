@@ -6,12 +6,12 @@ from sqlalchemy.orm import sessionmaker, registry
 SQLALCHEMY_DATABASE_URL = 'postgresql://sergei:ks1200ks@localhost/myPet'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, future=True)
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
 Base = declarative_base()
 
 
 def get_db():
-    db = Session()
+    db = SessionLocal()
     try:
         yield db
     finally:
