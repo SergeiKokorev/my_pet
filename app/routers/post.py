@@ -19,13 +19,13 @@ def posts(db: Session = Depends(get_db)):
     
     return posts
 
-@router.get("/{post_id}", status_code=status.HTTP_200_OK, response_model=schemas.Post)
-def get_post(post_id: int, db: Session = Depends(get_db)):
+@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.Post)
+def get_post(id: int, db: Session = Depends(get_db)):
 
-    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Post with id {post_id} has not been found.")
+                            detail=f"Post with id {id} has not been found.")
 
     return post
 
@@ -42,15 +42,15 @@ def create_post(post: schemas.CreatePost, db: Session = Depends(get_db)):
     return post
 
 
-@router.put("/{post_id}", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
-def update_post(post_id: int, post: schemas.CreatePost, db: Session = Depends(get_db)):
+@router.put("/{id}", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
+def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db)):
 
-    post_query = db.query(models.Post).filter(models.Post.id == post_id)
+    post_query = db.query(models.Post).filter(models.Post.id == id)
     updated_post = post_query.first()
 
     if not updated_post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Post id {post_id} has not been found.")
+                            detail=f"Post id {id} has not been found.")
     
     post_query.update(post.dict(), synchronize_session=False)
     db.commit()
