@@ -21,13 +21,21 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
+    profile = models.UserProfile(user_idx=user.id)
+    db.add(profile)
+    db.commit()
+    db.refresh(profile)
+
     return user
+
+@router.post("/{id}")
+def profile_create():
+    pass
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.GetUser)
 def get_user(id: int, db: Session = Depends(get_db)):
 
     user = db.query(models.BaseUser).filter(models.BaseUser.id==id).first()
-    print(user.email    )
 
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,

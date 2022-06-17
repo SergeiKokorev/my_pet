@@ -25,7 +25,6 @@ class UserBack(BaseModel):
 
 class GetBaseUser(BaseModel):
     email: EmailStr
-    created_at: datetime
 
     class Config:
         orm_mode = True
@@ -73,5 +72,7 @@ class Article(BaseModel):
     user_idx: int
     created_at: datetime
 
+class UserLogin(BaseModel):
 
-
+    email: EmailStr
+    password: str
