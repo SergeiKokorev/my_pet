@@ -76,3 +76,7 @@ class UserLogin(BaseModel):
 
     email: EmailStr
     password: str
+
+
+class TokenData(BaseModel):
+    id: int

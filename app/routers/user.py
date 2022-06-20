@@ -28,9 +28,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
     return user
 
-@router.post("/{id}")
-def profile_create():
-    pass
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.GetUser)
 def get_user(id: int, db: Session = Depends(get_db)):
@@ -42,6 +39,5 @@ def get_user(id: int, db: Session = Depends(get_db)):
                             detail=f"User with id {id} doesn\'t exist.")
     
     profile = db.query(models.UserProfile).filter(models.UserProfile.user_idx==user.id).first()
-    print(profile)
 
     return {"user": user, "profile": profile}
